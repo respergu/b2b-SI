@@ -44,7 +44,7 @@ import org.umbrella.ftp.support.FtpInfo;
 import org.umbrella.ftp.support.TestUserManager;
 
 /**
- * @author Gary Russell
+ * @author <b>respergu</b>
  * 
  */
 public class DynamicFtpOutboundChannelAdapterTest {

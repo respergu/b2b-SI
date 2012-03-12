@@ -29,14 +29,17 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.integration.Message;
 import org.springframework.integration.MessageChannel;
 import org.springframework.integration.support.MessageBuilder;
-import org.umbrella.ftp.FtpOutboundChannelAdapterTest;
 import org.umbrella.ftp.TestSuite;
 import org.umbrella.ftp.support.EngineInfo;
 import org.umbrella.ftp.support.FtpInfo;
 import org.umbrella.ftp.support.TestUserManager;
 import org.umbrella.sftp.MyPasswordAuthenticator;
 import org.umbrella.sftp.MyPublickeyAuthenticator;
-
+/**
+ * Test sending files to multiple ftp/sftp detinations.
+ * @author REspergue
+ *
+ */
 public class MultipleDestinationTypesTest {
 
 
@@ -64,6 +67,7 @@ public class MultipleDestinationTypesTest {
 		server.start();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public  void setupSFtpServer() throws Exception {
 		sshd = SshServer.setUpDefaultServer();
@@ -130,7 +134,7 @@ public class MultipleDestinationTypesTest {
 		EngineInfo sftpEngineInfo = new EngineInfo();
 		sftpEngineInfo.setSendType("SFTP");
 		FtpInfo sftpInfo = new FtpInfo();
-		sftpInfo.setDirectory("/STS-2.7.1/workspace/b2b-int/remote-target-dir");
+		sftpInfo.setDirectory("/home/dev/git/git/b2b-SI/remote-target-dir");
 		sftpInfo.setHostAddress("localhost");
 		sftpInfo.setUserName("login");
 		sftpInfo.setPassword("testPassword");
