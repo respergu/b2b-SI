@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="ftpChannelResolver" class="org.umbrella.ftp.DynamicFtpChannelResolver" />
+	<bean id="sftpChannelResolver" class="org.umbrella.sftp.DynamicSftpChannelResolver" />
+
+	<int:channel id="reports"/>	
+		
+    <int:router id="typeRouter" input-channel="reports" expression="headers['engineInfo'].sendType">
+       <int:mapping value="FTP" channel="toFtpDynRouter"/>
+       <int:mapping value="SFTP" channel="toSftpDynRouter"/>
+    </int:router>
+
+	<int:channel id="toFtpDynRouter" />
+
+	<int:router id="ftDynamicRouter" input-channel="toFtpDynRouter"
+		expression="@ftpChannelResolver.resolve(headers['ftpInfo'])"/>
+		
+
+	<int:channel id="toSftpDynRouter" />
+
+	<int:router id="sftDynamicRouter" input-channel="toSftpDynRouter"
+		expression="@sftpChannelResolver.resolve(headers['ftpInfo'])"/>
+		
+		
+	
+</beans>

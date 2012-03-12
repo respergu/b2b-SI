@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-sftp="http://www.springframework.org/schema/integration/sftp"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/integration/sftp http://www.springframework.org/schema/integration/sftp/spring-integration-sftp.xsd">
+
+	<context:property-placeholder />
+
+	<bean id="sftpSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
+		<property name="host" value="${host}"/>
+		<property name="port" value="22"/>
+		<property name="user" value="${user}"/>
+		<property name="password" value="${password}"/>
+	</bean>
+	
+	<int:channel id="toSftpChannel"/>
+	
+	<int-sftp:outbound-channel-adapter id="sftpOutboundAdapter"
+				session-factory="sftpSessionFactory"
+				channel="toSftpChannel"
+				auto-create-directory="true"
+				remote-directory="${remote.directory}"/>
+	
+
+</beans>
